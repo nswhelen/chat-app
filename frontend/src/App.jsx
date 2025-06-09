@@ -1,19 +1,25 @@
-import React, { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+
 import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import SettingsPage from "./pages/SettingsPage";
 import ProfilePage from "./pages/ProfilePage";
-import Navbar from "./components/Navbar";
+
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuthStore } from "./store/useAuthStore";
+import { useThemeStore } from "./store/useThemeStore";
+import { useEffect } from "react";
+
 import { Loader } from "lucide-react";
 import { Toaster } from "react-hot-toast";
-import { useThemeStore } from "./store/useThemeStore";
 
 const App = () => {
-  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
   const { theme } = useThemeStore();
+
+  console.log({ onlineUsers });
+
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
@@ -23,7 +29,7 @@ const App = () => {
   if (isCheckingAuth && !authUser)
     return (
       <div className="flex items-center justify-center h-screen">
-        <Loader className="h-16 w-16 animate-spin text-blue-500" />
+        <Loader className="size-10 animate-spin" />
       </div>
     );
 
@@ -55,5 +61,4 @@ const App = () => {
     </div>
   );
 };
-
 export default App;
